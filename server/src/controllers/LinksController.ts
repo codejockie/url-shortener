@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express"
 
 import * as shortid from "../utils/shortid"
-import { LinkModel } from "../db/links/links.model"
-import { ILink, ILinkDocument } from "../db/links/links.types"
+import { LinkModel } from "../database/links/links.model"
+import { ILink, ILinkDocument } from "../database/links/links.types"
 
 const baseUrl = process.env.BASE_URL ?? "pbid.io"
 
@@ -26,6 +26,19 @@ export const shortenUrl = async (
     res.status(201).json(newLink)
   } catch (error) {
     res.status(404).json({ error: `${error}` })
+  }
+}
+
+export const getLinks = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { urlId } = req.params
+  try {
+    const links = await LinkModel.find()
+    res.status(200).send(links)
+  } catch (error) {
+    res.status(301).redirect("/api")
   }
 }
 

@@ -2,7 +2,7 @@ import * as dotenv from "dotenv"
 import * as express from "express"
 import * as bodyParser from "body-parser"
 
-import { connect } from "./db"
+import { connect } from "./database"
 import * as router from "./router/index"
 
 dotenv.config()
