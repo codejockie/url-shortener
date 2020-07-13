@@ -1,9 +1,16 @@
-import { Application } from "express"
+import { Router } from "express"
 import * as linksController from "../controllers/LinksController"
 
-export const routes = (app: Application) => {
-  app.get("/api/links", linksController.getLinks)
-  app.post("/api/links", linksController.shortenUrl)
-  app.get("/api/links/:urlId", linksController.getLinkById)
-  app.delete("/api/links/:urlId", linksController.deleteLink)
+export default () => {
+  const router = Router()
+  router
+    .route("/links")
+    .get(linksController.getLinks)
+    .post(linksController.shortenUrl)
+  router
+    .route("/links/:urlId")
+    .get(linksController.getLinkById)
+    .delete(linksController.deleteLink)
+
+  return router
 }

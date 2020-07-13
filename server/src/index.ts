@@ -2,8 +2,8 @@ import * as dotenv from "dotenv"
 import * as express from "express"
 import * as bodyParser from "body-parser"
 
+import router from "./router"
 import { connect } from "./database"
-import * as router from "./router/index"
 
 dotenv.config()
 const app = express()
@@ -20,7 +20,7 @@ app.use(
   })
 )
 
-router.routes( app )
+app.use("/api", router())
 
 app.listen(PORT, () => {
   console.log("App is running at %d", PORT)
