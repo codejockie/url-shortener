@@ -12,7 +12,7 @@ export const connect = () => {
   mongoose.connect(MONGODB_URI, {
     useCreateIndex: true,
     useNewUrlParser: true,
-    useFindAndModify: true,
+    useFindAndModify: false,
     useUnifiedTopology: true,
   })
 

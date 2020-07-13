@@ -49,13 +49,13 @@ export const getLinkById = async (
 ): Promise<void> => {
   const { urlId } = req.params
   try {
-    const url = await LinkModel.findOneAndUpdate(
+    const link = await LinkModel.findOneAndUpdate(
       { urlId },
       { $inc: { popularity: 1 } }
     )
-    res.status(301).redirect(url ? `https://${url.original}` : "/api")
+    res.status(link ? 200 : 400).send(link)
   } catch (error) {
-    res.status(301).redirect("/api")
+    res.status(500).send({ error: "An error occurred, please try again" })
   }
   next()
 }
