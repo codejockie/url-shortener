@@ -11,8 +11,8 @@ export const shortenUrl = async (
   res: Response
 ): Promise<void> => {
   try {
-    const urlId = shortid.generate()
     const { url: original } = req.body
+    const urlId = shortid.generate().toLowerCase()
     const shortened = `https://${baseUrl ? baseUrl : req.headers.host}/${urlId}`
     const link: ILink = {
       urlId,
