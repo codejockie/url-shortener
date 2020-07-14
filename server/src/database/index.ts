@@ -1,34 +1,36 @@
 import * as mongoose from "mongoose"
-import { LinkModel } from "./links/links.model"
 
 let database: mongoose.Connection
-const { MONGODB_URI = "mongodb://localhost:27017/url-shortener" } = process.env
+const { MONGODB_URI = "mongodb://127.0.0.1:27017/url-shortener" } = process.env
+
+const connectWithRetry = () => {
+  mongoose
+    .connect(MONGODB_URI, {
+      bufferMaxEntries: 0,
+      useCreateIndex: true,
+      useNewUrlParser: true,
+      useFindAndModify: false,
+      useUnifiedTopology: true,
+    })
+    .then(() => {
+      console.info("Connected to database (mongo)")
+      database = mongoose.connection
+    })
+    .catch(() => {
+      console.info("MongoDB connection unsuccessful, retrying in 5 seconds...")
+      setTimeout(() => {
+        console.info("Retry connecting to MongoDB...")
+        connectWithRetry()
+      }, 5000)
+    })
+}
 
 export const connect = () => {
   if (database) {
     return
   }
 
-  mongoose.connect(MONGODB_URI, {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-  })
-
-  database = mongoose.connection
-
-  database.once("open", async () => {
-    console.log("Connected to database")
-  })
-
-  database.on("error", () => {
-    console.log("Error connecting to database")
-  })
-
-  return {
-    LinkModel,
-  }
+  connectWithRetry()
 }
 
 export const disconnect = () => {
