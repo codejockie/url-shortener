@@ -7,17 +7,18 @@
           <h2 class="subtitle">Simplify & track your links</h2>
         </div>
 
-        <div class="links">
-          <input
-            type="text"
-            name="url"
-            v-model="url"
-            autofocus
-            autocomplete="off"
-            class="links__input"
-            placeholder="Shorten your link"
-          />
-          <button class="links__button" @click="shortenUrl()">{{buttonText}}</button>
+        <div class="wrapper">
+          <div class="container">
+            <input
+              type="text"
+              name="url"
+              v-model="url"
+              autofocus
+              autocomplete="off"
+              placeholder="Shorten your link"
+            />
+            <button @click="shortenUrl()">{{buttonText}}</button>
+          </div>
         </div>
       </div>
     </section>
@@ -27,6 +28,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
+import { copy } from "@/utils/misc";
 import { ILink } from "@/types/Link";
 import { sortByDate } from "@/utils/links";
 import Links from "@/components/Links.vue";
@@ -43,6 +45,10 @@ export default class Home extends Vue {
   private links: ILink[] = [];
   private buttonText = "Shorten";
 
+  copyToClipboard(url: string) {
+    copy(url);
+  }
+
   @Watch("url")
   nameChanged(newUrl: string) {
     if (newUrl == "" && this.oldUrl != this.url) {
@@ -52,6 +58,7 @@ export default class Home extends Vue {
 
   async shortenUrl() {
     if (!this.url || this.url.includes("pbid.io")) {
+      this.url && this.copyToClipboard(this.url);
       return;
     }
 
@@ -70,6 +77,62 @@ export default class Home extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.wrapper {
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.container {
+  padding: 1rem;
+  display: block;
+}
+
+@media only screen and (min-width: 48rem) {
+  .container {
+    display: flex;
+  }
+}
+
+input[type="text"] {
+  border: none;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  font-size: 1rem;
+  line-height: 3rem;
+  padding: 0 1rem;
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    border-radius: 0.5rem 0 0 0.5rem;
+    display: inline-block;
+    width: 91%;
+  }
+}
+
+button {
+  background: #42b983;
+  border: none;
+  border-radius: 0.5rem;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 3rem;
+  margin-top: 1rem;
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    border-radius: 0 0.5rem 0.5rem 0;
+    width: 7.38rem;
+  }
+}
+
+@media only screen and (min-width: 48rem) {
+  button {
+    width: 10%;
+    margin-top: 0;
+  }
+}
+
 .top {
   height: 500px;
   height: 60vh;
@@ -125,50 +188,6 @@ button:hover {
 
     @media only screen and (min-width: 1066px) {
       letter-spacing: 3px;
-    }
-  }
-}
-
-.links {
-  margin: 0 auto;
-  width: 90%;
-
-  @media screen and (min-width: 601px) {
-    width: 71.5%;
-  }
-
-  & .links__input {
-    border: 1px solid lightgray;
-    border-radius: 0.5rem;
-    box-sizing: border-box;
-    font-size: 1rem;
-    height: 3rem;
-    margin-bottom: 0.5rem;
-    padding: 0 20px;
-    width: 100%;
-
-    @media screen and (min-width: 601px) {
-      border-radius: 0.5rem 0 0 0.5rem;
-      border-right: none;
-      width: 91%;
-      display: inline-block;
-    }
-  }
-
-  & .links__button {
-    background-color: #42b983;
-    border: 1px solid transparent;
-    border-radius: 0.5rem;
-    color: whitesmoke;
-    cursor: pointer;
-    font-size: 1rem;
-    height: 3rem;
-    width: 100%;
-
-    @media screen and (min-width: 601px) {
-      border-radius: 0 0.5rem 0.5rem 0;
-      border-left: none;
-      width: 7.38rem;
     }
   }
 }
