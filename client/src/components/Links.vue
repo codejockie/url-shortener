@@ -76,6 +76,7 @@ button:hover {
     float: left;
     list-style-type: none;
     padding-left: 0;
+    width: 100%;
 
     & li {
       float: left;
