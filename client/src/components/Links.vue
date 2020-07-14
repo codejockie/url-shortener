@@ -24,6 +24,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
+import { copy } from "@/utils/misc";
 import { ILink } from "@/types/Link";
 import { hostName } from "@/utils/links";
 import LocaleDate from "@/components/LocaleDate.vue";
@@ -37,13 +38,7 @@ export default class Links extends Vue {
   @Prop({ required: true }) readonly links!: ILink[];
 
   copyToClipboard(url: string) {
-    const listener = (ev: ClipboardEvent) => {
-      ev?.preventDefault();
-      ev?.clipboardData?.setData("text/plain", url);
-    };
-    document.addEventListener("copy", listener);
-    document.execCommand("copy");
-    document.removeEventListener("copy", listener);
+    copy(url);
   }
 
   getHostName(url: string) {
