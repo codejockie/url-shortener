@@ -14,7 +14,7 @@ export interface ILinkDocument extends ILink, Document {
 }
 
 export interface ILinkModel extends Model<ILinkDocument> {
-  findOneOrCreate: (
+  findOneOrCreate(
     this: ILinkModel,
     {
       urlId,
@@ -27,5 +27,5 @@ export interface ILinkModel extends Model<ILinkDocument> {
       shortened: string
       popularity: number
     }
-  ) => Promise<ILinkDocument>
+  ): Promise<ILinkDocument>
 }
