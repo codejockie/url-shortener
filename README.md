@@ -1,4 +1,5 @@
 # Short.ly - the URL Shortener
+![Node.js CI](https://github.com/codejockie/url-shortener/workflows/Node.js%20CI/badge.svg?branch=main)
 
 ## Installation and Setup
 + Navigate to a directory using your favourite terminal.
