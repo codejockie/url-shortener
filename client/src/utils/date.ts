@@ -1,3 +1,6 @@
-export function toLocaleDate(date: string) {
-  return new Date(date).toLocaleDateString().replace(/[-/]/g, ".");
+export function toDate(date: string) {
+  return new Date(date)
+    .toISOString()
+    .substring(0, 10)
+    .replace(/[-/]/g, ".");
 }
