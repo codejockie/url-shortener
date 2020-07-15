@@ -17,7 +17,7 @@
               autocomplete="off"
               placeholder="Shorten your link"
             />
-            <button @click="shortenUrl()">{{buttonText}}</button>
+            <button class="btn-shorten" @click="shorten()">{{buttonText || "Shorten"}}</button>
           </div>
         </div>
       </div>
@@ -32,6 +32,7 @@ import { copy } from "@/utils/misc";
 import { ILink } from "@/types/Link";
 import { sortByDate } from "@/utils/links";
 import Links from "@/components/Links.vue";
+import linksService from "@/services/links";
 
 @Component({
   components: {
@@ -43,34 +44,34 @@ export default class Home extends Vue {
   private url = "";
   private oldUrl = "";
   private links: ILink[] = [];
-  private buttonText = "Shorten";
+  private buttonText = "";
 
   copyToClipboard(url: string) {
     copy(url);
   }
 
   @Watch("url")
-  nameChanged(newUrl: string) {
-    if (newUrl == "" && this.oldUrl != this.url) {
+  urlChanged(newUrl: string) {
+    if (!this.url.includes("pbid.io") && this.oldUrl != this.url) {
       this.buttonText = "Shorten";
     }
   }
 
-  async shortenUrl() {
+  async shorten() {
     if (!this.url || this.url.includes("pbid.io")) {
       this.url && this.copyToClipboard(this.url);
       return;
     }
 
     this.oldUrl = this.url;
-    const { data } = await this.$http.post("/links", { url: this.url });
+    const { data } = await linksService.shortenLink(this.url);
     this.links = [data, ...this.links] as ILink[];
-    this.url = data ? data.shortened : this.oldUrl;
-    this.buttonText = data && data.shortened ? "Copy" : this.buttonText;
+    this.url = data.shortened ?? this.oldUrl;
+    this.buttonText = data?.shortened ? "Copy" : "Shorten";
   }
 
   async created() {
-    const { data } = await this.$http.get("/links");
+    const { data } = await linksService.getLinks();
     this.links = sortByDate(data as ILink[]);
   }
 }
