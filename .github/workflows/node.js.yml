@@ -24,6 +24,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: cd client
-    - run: yarn install
-    - run: yarn test
+    - run: ls && cd client && ls
+    - run: cd client && yarn install
+    - run: cd client && yarn test
