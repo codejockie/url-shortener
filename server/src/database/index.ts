@@ -13,7 +13,7 @@ const connectWithRetry = () => {
       useUnifiedTopology: true,
     })
     .then(() => {
-      console.info("Connected to database (mongo)")
+      console.info("Connected to database (MongoDB)")
       database = mongoose.connection
     })
     .catch(() => {
@@ -25,7 +25,7 @@ const connectWithRetry = () => {
     })
 }
 
-export const connect = () => {
+export const connectDatabase = () => {
   if (database) {
     return
   }
