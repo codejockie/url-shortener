@@ -27,3 +27,5 @@ jobs:
         
 # Client App CI
     - run: cd client && yarn install && yarn test:unit
+# Server API CI
+    - run: cd server && yarn install && yarn test
