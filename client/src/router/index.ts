@@ -41,6 +41,24 @@ const routes: Array<RouteConfig> = [
         }
       ]
     }
+  },
+  {
+    path: "/*",
+    component: () =>
+      import(/* webpackChunkName: "notFound" */ "../views/NotFound.vue"),
+    meta: {
+      title: "Short.ly - 404",
+      metaTags: [
+        {
+          name: "description",
+          content: "Page you are looking for was not found."
+        },
+        {
+          property: "og:description",
+          content: "Page you are looking for was not found."
+        }
+      ]
+    }
   }
 ];
 
