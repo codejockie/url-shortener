@@ -2,6 +2,7 @@
   <div id="app">
     <header class="app_header">
       <div class="container">
+        <h1 class="brand">Short.ly</h1>
         <div id="nav">
           <router-link to="/">Home</router-link>
           <router-link to="/about">About</router-link>
@@ -46,16 +47,18 @@ body {
   a {
     font-weight: bold;
     color: #fff;
+    text-decoration: none;
 
     &.router-link-exact-active {
       color: #42b983;
+      text-decoration: underline;
     }
   }
 
   & a:not(:last-child)::after {
     color: #fff;
     content: "|";
-    padding: 20px 5px;
+    padding: 0 5px;
   }
 }
 
@@ -64,5 +67,15 @@ input:active,
 button:focus,
 button:active {
   outline: none;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+
+  & .brand {
+    margin: 0;
+    padding: 20px;
+  }
 }
 </style>
