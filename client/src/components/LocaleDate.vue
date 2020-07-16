@@ -1,5 +1,5 @@
 <template>
-  <p class="data_link">{{localeDate}}</p>
+  <p class="data_link">{{ localeDate }}</p>
 </template>
 
 <script lang="ts">

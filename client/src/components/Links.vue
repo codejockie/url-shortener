@@ -4,17 +4,21 @@
       <li v-for="link of links" :key="link.urlId">
         <div>
           <LocaleDate :date="link.createdAt" />
-          <p class="link_host">{{getHostName(link.original)}}</p>
+          <p class="link_host">{{ getHostName(link.original) }}</p>
           <p class="url_link">
-            <a :href="link.original" target="_blank">{{link.original}}</a>
+            <a :href="link.original" target="_blank">{{ link.original }}</a>
           </p>
           <p id="link" class="d_i_b">
-            <a :href="link.shortened" class="short_url" target="blank">{{link.shortened}}</a>
+            <a :href="link.shortened" class="short_url" target="blank">{{
+              link.shortened
+            }}</a>
           </p>
-          <button class="btn-copy" @click="copyToClipboard(link.shortened)">Copy</button>
+          <button class="btn-copy" @click="copyToClipboard(link.shortened)">
+            Copy
+          </button>
           <button class="popularity">
             Clicks
-            <span>{{link.popularity}}</span>
+            <span>{{ link.popularity }}</span>
           </button>
         </div>
       </li>

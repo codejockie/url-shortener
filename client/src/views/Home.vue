@@ -17,7 +17,9 @@
               autocomplete="off"
               placeholder="Shorten your link"
             />
-            <button class="btn-shorten" @click="shorten()">{{buttonText || "Shorten"}}</button>
+            <button class="btn-shorten" @click="shorten()">
+              {{ buttonText || "Shorten" }}
+            </button>
           </div>
         </div>
       </div>
@@ -52,7 +54,7 @@ export default class Home extends Vue {
 
   @Watch("url")
   urlChanged(newUrl: string) {
-    if (!this.url.includes("pbid.io") && this.oldUrl != this.url) {
+    if (!this.url.includes("pbid.io") && this.oldUrl != newUrl) {
       this.buttonText = "Shorten";
     }
   }

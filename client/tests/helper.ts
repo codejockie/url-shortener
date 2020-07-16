@@ -1,30 +1,36 @@
 import { mount, shallowMount, VueClass } from "@vue/test-utils";
-import { ILink } from '@/types/Link';
+import { ILink } from "@/types/Link";
 
-export const factory = (Component: VueClass<Vue>, options: Record<string, {}> = {}) => {
+export const factory = (
+  Component: VueClass<Vue>,
+  options: Record<string, {}> = {}
+) => {
   return shallowMount(Component, {
-    data () {
+    data() {
       return {
         ...options?.data
-      }
+      };
     },
     propsData: {
       ...options?.propsData
     }
-  })
+  });
 };
 
-export const mountFactory = (Component: VueClass<Vue>, options: Record<string, {}> = {}) => {
+export const mountFactory = (
+  Component: VueClass<Vue>,
+  options: Record<string, {}> = {}
+) => {
   return mount(Component, {
-    data () {
+    data() {
       return {
         ...options?.data
-      }
+      };
     },
     propsData: {
       ...options?.propsData
     }
-  })
+  });
 };
 
 export const links: ILink[] = [
@@ -49,4 +55,4 @@ export const links: ILink[] = [
     createdAt: "2020-07-15T01:10:10.830Z",
     popularity: 150
   }
-]
+];

@@ -9,7 +9,7 @@ module.exports = {
     "<rootDir>/src/app/main.ts",
     ".mock.ts",
     "<rootDir>/tests/helper.ts",
-    "<rootDir>/src/services/axios.ts",
+    "<rootDir>/src/services/axios.ts"
   ],
   preset: "@vue/cli-plugin-unit-jest/presets/typescript-and-babel",
   moduleNameMapper: {
