@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h1>Short.ly</h1>
+    <h1>About Short.ly</h1>
     <div>
       <p>
         At Short.ly, we look after your links so you do not have to. We are
