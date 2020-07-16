@@ -73,10 +73,6 @@ router.beforeEach((to, from, next) => {
     document.title = nearestWithTitle.meta.title;
   }
 
-  if (previousNearestWithMeta) {
-    document.title = previousNearestWithMeta.meta.title;
-  }
-
   // Remove any stale meta tags from the document using the key attribute we set below.
   Array.from(
     document.querySelectorAll("[data-vue-router-controlled]")
