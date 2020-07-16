@@ -4,8 +4,6 @@ import * as shortid from "../utils/shortid"
 import { LinkModel } from "../database/links/links.model"
 import { ILinkDocument } from "../database/links/links.types"
 
-const baseUrl = process.env.BASE_URL ?? "pbid.io"
-
 export const shortenLink = async (
   req: Request,
   res: Response
@@ -13,7 +11,7 @@ export const shortenLink = async (
   try {
     const { url: original } = req.body
     const urlId = shortid.generate().toLowerCase()
-    const shortened = `https://${baseUrl}/${urlId}`
+    const shortened = `https://pbid.io/${urlId}`
     const newLink: ILinkDocument = new LinkModel({
       urlId,
       original,
@@ -24,7 +22,7 @@ export const shortenLink = async (
     await LinkModel.findOneOrCreate(newLink)
     res.status(201).json(newLink)
   } catch (error) {
-    res.status(404).json({ error: `${error}` })
+    res.status(404).json({ error })
   }
 }
 
@@ -32,12 +30,11 @@ export const getLinks = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { urlId } = req.params
   try {
     const links = await LinkModel.find()
-    res.status(200).send(links)
+    res.status(200).json(links)
   } catch (error) {
-    res.status(301).redirect("/api")
+    res.status(500).json({ error: "An error occurred, please try again" })
   }
 }
 
@@ -52,9 +49,9 @@ export const getLinkById = async (
       { urlId },
       { $inc: { popularity: 1 } }
     )
-    res.status(link ? 200 : 404).send(link)
+    res.status(link ? 200 : 404).json(link)
   } catch (error) {
-    res.status(500).send({ error: "An error occurred, please try again" })
+    res.status(500).json({ error: "An error occurred, please try again" })
   }
   next()
 }
