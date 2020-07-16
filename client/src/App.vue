@@ -14,6 +14,7 @@
 </template>
 
 <style lang="scss">
+html,
 body {
   margin: 0;
   padding: 0;
@@ -76,6 +77,7 @@ button:active {
   & .brand {
     margin: 0;
     padding: 20px;
+    user-select: none;
   }
 }
 </style>
