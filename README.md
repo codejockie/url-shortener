@@ -32,12 +32,16 @@
 
 + Run the command `$ docker-compose up --build`
 
+#### Production mode
++ Run the command `docker-compose -f docker-compose-prod.yml up --build` to use production build.
+
 Other Docker commands:
 
 - `docker build -t vue-app .`
 - `docker run -it -p 8080:8080 --rm --name url-shortener vue-app`
 
-Now the app should be running on port `8080` for the Vue app and port `4000` for the API.
+Now the app should be running on port `8080` (development) for the Vue app and port `4000` for the API.
 
-+ http://localhost:8080 - Vue App
++ http://127.0.0.1 - Vue App (production)
++ http://localhost:8080 - Vue App (development)
 + http://localhost:4000 - REST API
