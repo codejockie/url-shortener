@@ -9,7 +9,6 @@ services:
     depends_on:
       - api
     environment:
-      - VUE_APP_TITLE=Shortly
       - VUE_APP_API_URL=http://localhost:4000/api
   api:
     build: ./server
