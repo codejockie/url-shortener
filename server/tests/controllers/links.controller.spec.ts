@@ -1,32 +1,9 @@
 jest.mock("@/database/links/links.model")
-import * as mongoose from "mongoose"
 import * as request from "supertest"
-import { MongoMemoryServer } from "mongodb-memory-server"
 import app from "@/app"
 import { LinkModel } from "@/database/links/links.model"
 
-let mongoServer
-const opts = {
-  useCreateIndex: true,
-  useFindAndModify: false,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}
-
 describe("Links Controller", () => {
-  beforeAll(async () => {
-    mongoServer = new MongoMemoryServer()
-    const mongoUri = await mongoServer.getUri()
-    await mongoose.connect(mongoUri, opts, (err) => {
-      if (err) console.error(err)
-    })
-  })
-
-  afterAll(async () => {
-    await mongoose.disconnect()
-    await mongoServer.stop()
-  })
-
   describe("shortenLink", () => {
     test("shortens url", async () => {
       ;(LinkModel as any).mockImplementationOnce(() => ({
