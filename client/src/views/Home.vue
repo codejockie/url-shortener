@@ -10,14 +10,18 @@
         <div class="wrapper">
           <div class="container">
             <input
+              autofocus
               type="text"
               name="url"
               v-model="url"
-              autofocus
               autocomplete="off"
               placeholder="Shorten your link"
             />
-            <button class="btn-shorten" @click="shorten()">
+            <button
+              @click="shorten()"
+              class="btn-shorten"
+              :class="{ copy: isCopy }"
+            >
               {{ buttonText || "Shorten" }}
             </button>
           </div>
@@ -47,6 +51,7 @@ export default class Home extends Vue {
   private oldUrl = "";
   private links: ILink[] = [];
   private buttonText = "";
+  private isCopy = false;
 
   copyToClipboard(url: string) {
     copy(url);
@@ -55,6 +60,7 @@ export default class Home extends Vue {
   @Watch("url")
   urlChanged(newUrl: string) {
     if (!this.url.includes("pbid.io") && this.oldUrl != newUrl) {
+      this.isCopy = false;
       this.buttonText = "Shorten";
     }
   }
@@ -69,6 +75,7 @@ export default class Home extends Vue {
     const { data } = await linksService.shortenLink(this.url);
     this.links = [data, ...this.links] as ILink[];
     this.url = data.shortened ?? this.oldUrl;
+    this.isCopy = data?.shortened ? true : false;
     this.buttonText = data?.shortened ? "Copy" : "Shorten";
   }
 
@@ -81,17 +88,15 @@ export default class Home extends Vue {
 
 <style lang="scss" scoped>
 .wrapper {
-  max-width: 80rem;
   margin: 0 auto;
+  max-width: 80rem;
 }
 
 .container {
-  padding: 1rem;
   display: block;
-}
+  padding: 1rem;
 
-@media only screen and (min-width: 48rem) {
-  .container {
+  @media only screen and (min-width: 48rem) {
     display: flex;
   }
 }
@@ -105,7 +110,7 @@ input[type="text"] {
   padding: 0 1rem;
   width: 100%;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 48rem) {
     border-radius: 0.5rem 0 0 0.5rem;
     display: inline-block;
     width: 91%;
@@ -113,44 +118,44 @@ input[type="text"] {
 }
 
 button {
-  background: #42b983;
+  background-color: #42b983;
   border: none;
   border-radius: 0.5rem;
   color: #fff;
   cursor: pointer;
   font-size: 1rem;
+  font-weight: 500;
   line-height: 3rem;
   margin-top: 1rem;
   width: 100%;
 
-  @media screen and (min-width: 768px) {
+  &.copy {
+    background-color: #ff2239;
+    font-weight: bold;
+  }
+
+  @media screen and (min-width: 48rem) {
     border-radius: 0 0.5rem 0.5rem 0;
+    margin-top: 0;
     width: 7.38rem;
   }
 }
 
-@media only screen and (min-width: 48rem) {
-  button {
-    width: 10%;
-    margin-top: 0;
-  }
-}
-
 .top {
-  height: 500px;
-  height: 60vh;
-  min-height: 450px;
-  max-height: 460px;
-  padding: 0;
-  margin: 0;
   background-color: #002553;
+  height: 31.25rem;
+  height: 60vh;
+  min-height: 28.125rem;
+  max-height: 28.75rem;
+  margin: 0;
+  padding: 0;
 
   & .bg_over {
-    position: relative;
-    padding-top: 150px;
-    z-index: 1;
-    vertical-align: middle;
     overflow-x: hidden;
+    padding-top: 9.375rem;
+    position: relative;
+    vertical-align: middle;
+    z-index: 1;
   }
 }
 
@@ -171,11 +176,11 @@ button:hover {
     color: #fff;
     font-weight: 700;
     font-size: 2.2rem;
-    padding: 0;
     margin: 0;
+    padding: 0;
     text-align: center;
 
-    @media only screen and (min-width: 1066px) {
+    @media only screen and (min-width: 66.625rem) {
       font-size: 2.6rem;
     }
   }
@@ -185,11 +190,11 @@ button:hover {
     font-size: 1.2rem;
     font-weight: 300;
     letter-spacing: 1px;
+    margin: 0.25rem 0 2.18rem;
     padding: 0;
-    margin: 4px 0 35px;
     text-align: center;
 
-    @media only screen and (min-width: 1066px) {
+    @media only screen and (min-width: 66.625rem) {
       letter-spacing: 3px;
     }
   }
