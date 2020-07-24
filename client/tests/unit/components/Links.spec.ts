@@ -24,7 +24,7 @@ describe("Links.vue", () => {
     });
 
     expect(wrapper.find(".link_host").text()).toMatch("example.com");
-    expect(wrapper.find(".url_link").text()).toMatch("https://example.com");
+    expect(wrapper.find(".original_link").text()).toMatch("https://example.com");
   });
 
   test("copies link to clipboard", () => {
