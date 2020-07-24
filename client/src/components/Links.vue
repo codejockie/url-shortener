@@ -1,15 +1,15 @@
 <template>
   <div class="result" v-if="links.length">
-    <ul class="shortened-urls">
+    <ul class="links">
       <li v-for="link of links" :key="link.urlId">
         <div>
           <LocaleDate :date="link.createdAt" />
           <p class="link_host">{{ getHostName(link.original) }}</p>
-          <p class="url_link">
+          <p class="original_link">
             <a :href="link.original" target="_blank">{{ link.original }}</a>
           </p>
-          <p id="link" class="d_i_b">
-            <a :href="link.shortened" class="short_url" target="blank">{{
+          <p id="link" class="link">
+            <a :href="link.shortened" class="short_link" target="blank">{{
               link.shortened
             }}</a>
           </p>
@@ -83,171 +83,177 @@ button:hover {
     }
   }
 
-  & .shortened-urls li {
-    margin-top: 5px;
-    margin-bottom: 0;
-    z-index: 1;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
+  & .links li {
     border-radius: 2px;
+    margin-bottom: 0;
+    margin-top: 5px;
+    z-index: 1;
+
+    & div {
+      border: 1px solid rgba(118, 140, 161, 0.08);
+      box-shadow: 0 2px 4px rgba(4, 28, 80, 0.02);
+      margin-top: 0;
+      -webkit-transition: all 0.25s ease-out;
+      -ms-transition: all 0.25s ease-out;
+      transition: all 0.25s ease-out;
+    }
   }
 
   & div {
+    border-bottom: 1px solid rgba(118, 140, 161, 0.2);
+    border-radius: 2px;
     box-sizing: border-box;
+    color: #002553;
     float: left;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+    padding: 12px;
     position: relative;
     width: 100%;
-    color: #002553;
-    line-height: 1.6;
-    padding: 12px;
-    margin: 0;
-    font-size: 14px;
     word-break: break-all;
-    border-bottom: 1px solid rgba(118, 140, 161, 0.2);
+  }
+
+  & p {
+    margin: 2px 0;
+  }
+
+  & .data_link {
+    border: 1px solid #002553;
+    width: 110px;
+    position: relative;
+    text-align: center;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
+    font-size: 12px;
+    padding: 3px 6px;
+    margin: 0 0 3px;
   }
-}
 
-.shortened-urls li div {
-  margin-top: 0;
-  border: 1px solid rgba(118, 140, 161, 0.08);
-  box-shadow: 0 2px 4px rgba(4, 28, 80, 0.02);
-  -webkit-transition: all 0.25s ease-out;
-  -ms-transition: all 0.25s ease-out;
-  transition: all 0.25s ease-out;
-}
-
-.result ul li div {
-  margin-top: 0;
-  margin-bottom: 0;
-  border: 1px solid #e6e6e7;
-}
-
-.shortened-urls li:nth-child(1) div {
-  margin-top: 15px;
-}
-
-.shortened-urls li:last-child div {
-  margin-bottom: 15px;
-}
-
-.result ul li:nth-child(1) div {
-  margin-top: 5px;
-}
-
-.result ul li:last-child div {
-  margin-bottom: 0;
-}
-
-.result p {
-  margin: 2px 0;
-}
-
-.result .data_link {
-  border: 1px solid #002553;
-  width: 110px;
-  position: relative;
-  text-align: center;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  font-size: 12px;
-  padding: 3px 6px;
-  margin: 0 0 3px;
-}
-
-.result .link_host {
-  color: #002553;
-  width: 100%;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  display: block;
-}
-
-p.url_link {
-  margin-bottom: 6px;
-}
-
-.result .url_link a {
-  color: rgba(118, 140, 161, 0.65);
-
-  &:hover {
-    color: #1076f7;
-  }
-}
-
-.d_i_b {
-  display: inline-block;
-}
-
-.result #link a {
-  color: #ff2239;
-  word-break: break-all;
-  max-width: 380px;
-  margin: 40px auto 0;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  position: relative;
-
-  &:hover {
+  & .link_host {
     color: #002553;
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
+  }
+
+  & button.btn-copy {
+    background: 0 0;
+    color: #fe223b;
+    cursor: pointer;
+    border: none;
+    border: 1px solid #fe223b;
+    border-radius: 2px;
+    box-shadow: none;
+    font-size: 0.875rem;
+    margin: 0;
+    padding: 6px 12px;
+    width: auto;
+
+    &:hover {
+      background: #fe223b;
+      color: #fff;
+    }
+
+    @media screen and (min-width: 23.44rem) {
+      margin: 0 0 0 15px;
+    }
+  }
+
+  & button.popularity {
+    float: right;
+    background: 0 0;
+    border: none;
+    border: 1px solid #1076f7;
+    border-radius: 2px;
+    box-shadow: none;
+    font-size: 14px;
+    color: #1076f7;
+    cursor: pointer;
+    margin: 0;
+    padding: 6px 12px;
+    text-transform: lowercase;
+    width: auto;
+
+    &:hover {
+      background: #1076f7;
+      color: #fff;
+    }
+
+    & span {
+      font-weight: 700;
+    }
+
+    @media screen and (min-width: 23.44rem) {
+      margin: 0 0 0 15px;
+    }
+  }
+
+  & #link a {
+    border-radius: 2px;
+    color: #ff2239;
+    margin: 2.5rem auto 0;
+    max-width: 380px;
+    position: relative;
+    word-break: break-all;
+
+    &:hover {
+      color: #002553;
+    }
   }
 }
 
-.short_url {
+.result .links li div {
+  border: 1px solid #e6e6e7;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.links {
+  & li:nth-child(1) div {
+    margin-top: 0.94rem;
+  }
+
+  & li:last-child div {
+    margin-bottom: 0.94rem;
+  }
+}
+
+.result ul {
+  & li:nth-child(1) div {
+    margin-top: 0.31rem;
+  }
+
+  & li:last-child div {
+    margin-bottom: 0;
+  }
+}
+
+p.original_link {
+  margin-bottom: 0.375rem;
+
+  & a {
+    color: rgba(118, 140, 161, 0.65);
+
+    &:hover {
+      color: #1076f7;
+    }
+  }
+}
+
+.link {
+  display: block;
+
+  @media screen and (min-width: 23.44rem) {
+    display: inline-block;
+  }
+}
+
+.short_link {
   font-size: 0.9rem;
   font-weight: 700;
-}
-
-.result button.btn-copy {
-  background: 0 0;
-  width: auto;
-  font-size: 14px;
-  color: #fe223b;
-  cursor: pointer;
-  box-shadow: none;
-  border: none;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  border: 1px solid #fe223b;
-  padding: 6px 12px;
-  margin: 0 0 0 15px;
-
-  &:hover {
-    background: #fe223b;
-    color: #fff;
-  }
-}
-
-.result button.popularity {
-  float: right;
-  background: 0 0;
-  width: auto;
-  font-size: 14px;
-  color: #1076f7;
-  text-transform: lowercase;
-  cursor: pointer;
-  box-shadow: none;
-  border: none;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  border: 1px solid #1076f7;
-  padding: 6px 12px;
-  margin: 0 0 0 15px;
-
-  &:hover {
-    background: #1076f7;
-    color: #fff;
-  }
-
-  & span {
-    font-weight: 700;
-  }
 }
 </style>
