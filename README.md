@@ -30,10 +30,10 @@
 ### Using Docker
 > Ensure you have docker installed, before proceeding. Also that these ports `[4000, 8080]` are free on your computer.
 
-+ Run the command `$ docker-compose up --build`
++ Run the command `$ docker-compose up --build`. (Production mode)
 
-#### Production mode
-+ Run the command `docker-compose -f docker-compose-prod.yml up --build` to use production build.
+#### Development mode
++ Run the command `docker-compose -f docker-compose-dev.yml up --build`.
 
 Other Docker commands:
 
