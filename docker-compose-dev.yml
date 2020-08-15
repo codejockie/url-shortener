@@ -2,12 +2,12 @@ version: "3.7"
 
 services:
   ui:
-    container_name: shortly_app
     build:
       context: ./client
-      dockerfile: Prod.Dockerfile
+      dockerfile: Dev.Dockerfile
+    container_name: shortly_app
     ports:
-      - "80:80"
+      - "8080:8080"
     depends_on:
       - api
     environment:
