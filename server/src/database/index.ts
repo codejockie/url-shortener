@@ -33,10 +33,11 @@ export const connectDatabase = () => {
   connectWithRetry()
 }
 
-export const disconnect = () => {
+export const disconnectDatabase = () => {
   if (!database) {
     return
   }
 
   mongoose.disconnect()
+  console.info("Disconnected from database (MongoDB)")
 }

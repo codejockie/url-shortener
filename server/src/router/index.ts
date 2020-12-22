@@ -1,5 +1,5 @@
 import { Router } from "express"
-import * as linksController from "../controllers/links.controller"
+import * as linksController from "@/controllers/links.controller"
 
 export default () => {
   const router = Router()
