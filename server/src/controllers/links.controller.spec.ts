@@ -4,6 +4,10 @@ import app from "@/app"
 import { LinkModel } from "@/database/links/links.model"
 
 describe("Links Controller", () => {
+  const mockFind = LinkModel.find as jest.Mock
+  const mockFindOneOrCreate = LinkModel.findOneOrCreate as jest.Mock
+  const mockFindOneAndUpdate = LinkModel.findOneAndUpdate as jest.Mock
+
   describe("shortenLink", () => {
     test("shortens url", async () => {
       ;(LinkModel as any).mockImplementationOnce(() => ({
@@ -20,21 +24,21 @@ describe("Links Controller", () => {
     })
 
     test("handles error", async () => {
-      ;(LinkModel.findOneOrCreate as any).mockRejectedValueOnce(
+      mockFindOneOrCreate.mockRejectedValueOnce(
         "An error occurred, please try again"
       )
       const response = await request(app)
         .post("/api/links")
         .send({ url: "https://bing.com" })
 
-      expect(response.status).toEqual(404)
+      expect(response.status).toEqual(500)
       expect(response.body.error).toEqual("An error occurred, please try again")
     })
   })
 
   describe("getLinkById", () => {
     test("gets a link by id", async () => {
-      ;(LinkModel.findOneAndUpdate as any).mockResolvedValueOnce({
+      mockFindOneAndUpdate.mockResolvedValueOnce({
         urlId: "74ads1ae",
         original: "https://bing.com",
         shortened: "https://pbid.io/74ads1ae",
@@ -50,7 +54,7 @@ describe("Links Controller", () => {
     })
 
     test("handles not found", async () => {
-      ;(LinkModel.findOneAndUpdate as any).mockResolvedValueOnce(null)
+      mockFindOneAndUpdate.mockResolvedValueOnce(null)
       const response = await request(app).get("/api/links/74ads1ae")
 
       expect(response.status).toEqual(404)
@@ -58,7 +62,7 @@ describe("Links Controller", () => {
     })
 
     test("handles error", async () => {
-      ;(LinkModel.findOneAndUpdate as any).mockRejectedValueOnce(
+      mockFindOneAndUpdate.mockRejectedValueOnce(
         "An error occurred, please try again"
       )
       const response = await request(app).get("/api/links/74ads1ae")
@@ -76,9 +80,7 @@ describe("Links Controller", () => {
     })
 
     test("handles error", async () => {
-      ;(LinkModel.find as any).mockRejectedValueOnce(
-        "An error occurred, please try again"
-      )
+      mockFind.mockRejectedValueOnce("An error occurred, please try again")
       const response = await request(app).get("/api/links")
 
       expect(response.status).toEqual(500)

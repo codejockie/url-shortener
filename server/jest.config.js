@@ -16,7 +16,7 @@ module.exports = {
     "^@/(.*)$": "<rootDir>/src/$1",
   },
   testEnvironment: "node",
-  testRegex: "/tests/.*.spec.ts",
+  testRegex: "/src/.*.spec.ts",
   transform: {
     "^.+\\.tsx?$": "ts-jest",
   },

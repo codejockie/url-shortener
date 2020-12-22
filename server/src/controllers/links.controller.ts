@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from "express"
+import { Request, Response } from "express"
 
-import * as shortid from "../utils/shortid"
-import { LinkModel } from "../database/links/links.model"
-import { ILinkDocument } from "../database/links/links.types"
+import * as shortid from "@/utils/shortid"
+import { LinkModel } from "@/database/links/links.model"
+import { ILinkDocument } from "@/database/links/links.types"
 
 export const shortenLink = async (
   req: Request,
@@ -22,14 +22,11 @@ export const shortenLink = async (
     await LinkModel.findOneOrCreate(newLink)
     res.status(201).json(newLink)
   } catch (error) {
-    res.status(404).json({ error })
+    res.status(500).json({ error })
   }
 }
 
-export const getLinks = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const getLinks = async (req: Request, res: Response): Promise<void> => {
   try {
     const links = await LinkModel.find()
     res.status(200).json(links)
@@ -40,8 +37,7 @@ export const getLinks = async (
 
 export const getLinkById = async (
   req: Request,
-  res: Response,
-  next: NextFunction
+  res: Response
 ): Promise<void> => {
   const { urlId } = req.params
   try {
@@ -53,5 +49,4 @@ export const getLinkById = async (
   } catch (error) {
     res.status(500).json({ error: "An error occurred, please try again" })
   }
-  next()
 }

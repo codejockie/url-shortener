@@ -21,11 +21,6 @@ export interface ILinkModel extends Model<ILinkDocument> {
       original,
       shortened,
       popularity,
-    }: {
-      urlId: string
-      original: string
-      shortened: string
-      popularity: number
-    }
+    }: Omit<ILink, "createdAt" | "updatedAt">
   ): Promise<ILinkDocument>
 }

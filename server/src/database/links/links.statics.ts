@@ -9,7 +9,7 @@ export async function findOneOrCreate(
     urlId,
   }: { urlId: string; original: string; shortened: string; popularity: number }
 ): Promise<ILinkDocument> {
-  const record = await this.findOne({ original, shortened, popularity })
+  const record = await this.findOne({ original, shortened })
   if (record) {
     return record
   } else {

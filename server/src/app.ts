@@ -1,7 +1,7 @@
 import * as express from "express"
 import * as bodyParser from "body-parser"
 
-import router from "./router"
+import router from "@/router"
 
 class App {
   public app: express.Express
