@@ -33,7 +33,7 @@
 + Run the command `$ docker-compose up --build`. (Production mode)
 
 #### Development mode
-+ Run the command `docker-compose -f docker-compose-dev.yml up --build`.
++ Run the command `docker-compose -f docker-compose.dev.yml up --build`.
 
 Other Docker commands:
 
