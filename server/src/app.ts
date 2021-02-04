@@ -1,6 +1,7 @@
 import * as express from "express"
 import * as bodyParser from "body-parser"
 import router from "@/router"
+import { BadRequest } from "@/errors/bad-request"
 
 class App {
   public app: express.Express
@@ -35,11 +36,28 @@ class App {
     this.app.get("/status", (req, res) =>
       res.status(200).send({ status: "OK", timestamp: new Date().toISOString() })
     )
+
+    // Catch all route handler
+    this.app.all("*", (req, res, next) => {
+      const err = new BadRequest(`${req.originalUrl} not found`)
+      next(err)
+    })
+  }
+
+  private handleError() {
+    // Error Handler
+    this.app.use((err, req, res, next) => {
+      res.status(err.statusCode).json({
+        status: err.status,
+        message: err.message,
+      })
+    })
   }
 
   private configure() {
     this.mountMiddleware()
     this.mountRoutes()
+    this.handleError()
   }
 }
 
