@@ -1,6 +1,5 @@
 import * as express from "express"
 import * as bodyParser from "body-parser"
-
 import router from "@/router"
 
 class App {
@@ -8,8 +7,7 @@ class App {
 
   constructor() {
     this.app = express()
-    this.mountMiddleware()
-    this.mountRoutes()
+    this.configure()
   }
 
   private mountMiddleware(): void {
@@ -34,13 +32,15 @@ class App {
 
   private mountRoutes(): void {
     this.app.use("/api", router())
-    this.app.get("/status", (req: express.Request, res: express.Response) =>
-      res
-        .status(200)
-        .send({ status: "OK", timestamp: new Date().toISOString() })
+    this.app.get("/status", (req, res) =>
+      res.status(200).send({ status: "OK", timestamp: new Date().toISOString() })
     )
+  }
+
+  private configure() {
+    this.mountMiddleware()
+    this.mountRoutes()
   }
 }
 
-const { app } = new App()
-export default app
+export const { app } = new App()
