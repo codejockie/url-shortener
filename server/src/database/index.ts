@@ -1,36 +1,37 @@
 import * as mongoose from "mongoose"
+import { winstonLogger } from "@/utils/logger"
 
 let database: mongoose.Connection
+const logger = winstonLogger("database")
 const { MONGODB_URI = "mongodb://127.0.0.1:27017/url-shortener" } = process.env
 
-const connectWithRetry = () => {
-  mongoose
-    .connect(MONGODB_URI, {
+const connectWithRetry = async () => {
+  try {
+    const { connection } = await mongoose.connect(MONGODB_URI, {
       bufferMaxEntries: 0,
       useCreateIndex: true,
       useNewUrlParser: true,
       useFindAndModify: false,
       useUnifiedTopology: true,
     })
-    .then(() => {
-      console.info("Connected to database (MongoDB)")
-      database = mongoose.connection
-    })
-    .catch(() => {
-      console.info("MongoDB connection unsuccessful, retrying in 5 seconds...")
-      setTimeout(() => {
-        console.info("Retry connecting to MongoDB...")
-        connectWithRetry()
-      }, 5000)
-    })
+
+    logger.info("Connected to database (MongoDB)")
+    database = connection
+  } catch (err) {
+    logger.info("MongoDB connection unsuccessful, retrying in 5 seconds...")
+    setTimeout(() => {
+      logger.info("Retry connecting to MongoDB...")
+      connectWithRetry()
+    }, 5000)
+  }
 }
 
-export const connectDatabase = () => {
+export const connectDatabase = async () => {
   if (database) {
     return
   }
 
-  connectWithRetry()
+  await connectWithRetry()
 }
 
 export const disconnectDatabase = () => {
@@ -39,5 +40,5 @@ export const disconnectDatabase = () => {
   }
 
   mongoose.disconnect()
-  console.info("Disconnected from database (MongoDB)")
+  logger.info("Disconnected from database (MongoDB)")
 }
