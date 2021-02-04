@@ -6,13 +6,13 @@ export async function findOneOrCreate(
     original,
     shortened,
     popularity,
-    urlId,
-  }: { urlId: string; original: string; shortened: string; popularity: number }
+    linkId,
+  }: { linkId: string; original: string; shortened: string; popularity: number }
 ): Promise<ILinkDocument> {
   const record = await this.findOne({ original, shortened })
   if (record) {
     return record
   } else {
-    return this.create({ urlId, original, shortened, popularity })
+    return this.create({ linkId, original, shortened, popularity })
   }
 }
