@@ -1,7 +1,7 @@
 import { Document, Model } from "mongoose"
 
 export interface ILink {
-  urlId: string
+  linkId: string
   original: string
   shortened: string
   createdAt?: Date
@@ -16,11 +16,6 @@ export interface ILinkDocument extends ILink, Document {
 export interface ILinkModel extends Model<ILinkDocument> {
   findOneOrCreate(
     this: ILinkModel,
-    {
-      urlId,
-      original,
-      shortened,
-      popularity,
-    }: Omit<ILink, "createdAt" | "updatedAt">
+    { linkId, original, shortened, popularity }: Omit<ILink, "createdAt" | "updatedAt">
   ): Promise<ILinkDocument>
 }
