@@ -8,4 +8,10 @@ describe("App", () => {
     expect(result.status).toEqual(200)
     expect(result.body.status).toEqual("OK")
   })
+
+  test("handles unknown route", async () => {
+    const result = await request(app).get("/unknown-invalid")
+    expect(result.status).toEqual(404)
+    expect(result.body.status).toEqual("Fail")
+  })
 })
