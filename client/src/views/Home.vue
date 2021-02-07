@@ -17,12 +17,8 @@
               autocomplete="off"
               placeholder="Shorten your link"
             />
-            <button
-              @click="shorten()"
-              class="btn-shorten"
-              :class="{ copy: isCopy }"
-            >
-              {{ buttonText || "Shorten" }}
+            <button @click="shorten()" class="btn-shorten" :class="{ copy: isCopy }">
+              {{ buttonText }}
             </button>
           </div>
         </div>
@@ -39,18 +35,19 @@ import { ILink } from "@/types/Link";
 import { sortByDate } from "@/utils/links";
 import Links from "@/components/Links.vue";
 import linksService from "@/services/links";
+import { COPY, linkRegex, SHORTEN } from "@/constants";
 
 @Component({
   components: {
-    Links
+    Links,
   },
-  name: "Home"
+  name: "Home",
 })
 export default class Home extends Vue {
   private url = "";
   private oldUrl = "";
   private links: ILink[] = [];
-  private buttonText = "";
+  private buttonText = SHORTEN;
   private isCopy = false;
 
   copyToClipboard(url: string) {
@@ -59,24 +56,29 @@ export default class Home extends Vue {
 
   @Watch("url")
   urlChanged(newUrl: string) {
-    if (!this.url.includes("pbid.io") && this.oldUrl != newUrl) {
+    if (!linkRegex.test(this.url) && this.oldUrl != newUrl) {
       this.isCopy = false;
-      this.buttonText = "Shorten";
+      this.buttonText = SHORTEN;
     }
   }
 
   async shorten() {
-    if (!this.url || this.url.includes("pbid.io")) {
-      this.url && this.copyToClipboard(this.url);
-      return;
+    if (linkRegex.test(this.url)) {
+      // TODO: Show a tooltip
+      return this.copyToClipboard(this.url);
     }
 
-    this.oldUrl = this.url;
-    const { data } = await linksService.shortenLink(this.url);
-    this.links = [data, ...this.links] as ILink[];
-    this.url = data.shortened ?? this.oldUrl;
-    this.isCopy = data?.shortened ? true : false;
-    this.buttonText = data?.shortened ? "Copy" : "Shorten";
+    try {
+      this.oldUrl = this.url;
+      const { data } = await linksService.shortenLink(this.url);
+      this.links = [data, ...this.links] as ILink[];
+      this.url = data.shortened ?? this.oldUrl;
+      this.isCopy = data?.shortened ? true : false;
+      this.buttonText = data?.shortened ? COPY : SHORTEN;
+    } catch (error) {
+      // TODO: Add a toast notification
+      console.error(error);
+    }
   }
 
   async created() {
@@ -137,7 +139,7 @@ button {
   @media screen and (min-width: 48rem) {
     border-radius: 0 0.5rem 0.5rem 0;
     margin-top: 0;
-    width: 7.38rem;
+    width: 9%;
   }
 }
 
@@ -164,9 +166,9 @@ a:hover,
 button,
 button:hover {
   text-decoration: none;
-  -webkit-transition: all 0.25s ease-out;
-  -ms-transition: all 0.25s ease-out;
-  transition: all 0.25s ease-out;
+  -webkit-transition: all 0.2s ease-out;
+  -ms-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
 }
 
 .header {
