@@ -14,58 +14,56 @@ const routes: Array<RouteConfig> = [
       metaTags: [
         {
           name: "description",
-          content: "Short.ly home page."
+          content: "Short.ly home page.",
         },
         {
           property: "og:description",
-          content: "Short.ly home page."
-        }
-      ]
-    }
+          content: "Short.ly home page.",
+        },
+      ],
+    },
   },
   {
     path: "/about",
     name: "About",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+    component: () => import(/* webpackChunkName: "about" */ "../views/About.vue"),
     meta: {
       title: "Short.ly - About",
       metaTags: [
         {
           name: "description",
-          content: "Short.ly about page."
+          content: "Short.ly about page.",
         },
         {
           property: "og:description",
-          content: "Short.ly about page."
-        }
-      ]
-    }
+          content: "Short.ly about page.",
+        },
+      ],
+    },
   },
   {
     path: "/*",
-    component: () =>
-      import(/* webpackChunkName: "notFound" */ "../views/NotFound.vue"),
+    component: () => import(/* webpackChunkName: "notFound" */ "../views/NotFound.vue"),
     meta: {
       title: "Short.ly - 404",
       metaTags: [
         {
           name: "description",
-          content: "Page you are looking for was not found."
+          content: "Page you are looking for was not found.",
         },
         {
           property: "og:description",
-          content: "Page you are looking for was not found."
-        }
-      ]
-    }
-  }
+          content: "Page you are looking for was not found.",
+        },
+      ],
+    },
+  },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 router.beforeEach((to, from, next) => {
@@ -74,17 +72,17 @@ router.beforeEach((to, from, next) => {
   const nearestWithTitle = to.matched
     .slice()
     .reverse()
-    .find(r => r.meta && r.meta.title);
+    .find((r) => r.meta && r.meta.title);
 
   // Find the nearest route element with meta tags.
   const nearestWithMeta = to.matched
     .slice()
     .reverse()
-    .find(r => r.meta && r.meta.metaTags);
+    .find((r) => r.meta && r.meta.metaTags);
   const previousNearestWithMeta = from.matched
     .slice()
     .reverse()
-    .find(r => r.meta && r.meta.metaTags);
+    .find((r) => r.meta && r.meta.metaTags);
 
   // If a route with a title was found, set the document (page) title to that value.
   if (nearestWithTitle) {
@@ -92,9 +90,9 @@ router.beforeEach((to, from, next) => {
   }
 
   // Remove any stale meta tags from the document using the key attribute we set below.
-  Array.from(
-    document.querySelectorAll("[data-vue-router-controlled]")
-  ).map(el => el.parentNode?.removeChild(el));
+  Array.from(document.querySelectorAll("[data-vue-router-controlled]")).map((el) =>
+    el.parentNode?.removeChild(el)
+  );
 
   // Skip rendering meta tags if there are none.
   if (!nearestWithMeta) {
@@ -106,7 +104,7 @@ router.beforeEach((to, from, next) => {
     .map((tagDef: Record<string, string>) => {
       const tag = document.createElement("meta");
 
-      Object.keys(tagDef).forEach(key => {
+      Object.keys(tagDef).forEach((key) => {
         tag.setAttribute(key, tagDef[key]);
       });
 

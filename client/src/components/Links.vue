@@ -9,13 +9,9 @@
             <a :href="link.original" target="_blank">{{ link.original }}</a>
           </p>
           <p id="link" class="link">
-            <a :href="link.shortened" class="short_link" target="blank">{{
-              link.shortened
-            }}</a>
+            <a :href="link.shortened" class="short_link" target="blank">{{ link.shortened }}</a>
           </p>
-          <button class="btn-copy" @click="copyToClipboard(link.shortened)">
-            Copy
-          </button>
+          <button class="btn-copy" @click="copyToClipboard(link.shortened)">Copy</button>
           <button class="popularity">
             Clicks
             <span>{{ link.popularity }}</span>
@@ -35,8 +31,8 @@ import LocaleDate from "@/components/LocaleDate.vue";
 
 @Component({
   components: {
-    LocaleDate
-  }
+    LocaleDate,
+  },
 })
 export default class Links extends Vue {
   @Prop({ required: true }) readonly links!: ILink[];

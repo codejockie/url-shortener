@@ -3,8 +3,8 @@
     <h1>About Short.ly</h1>
     <div>
       <p>
-        At Short.ly, we look after your links so you do not have to. We are
-        committed to helping you get the best from your links
+        At Short.ly, we look after your links so you do not have to. We are committed to helping you
+        get the best from your links
       </p>
     </div>
   </div>
