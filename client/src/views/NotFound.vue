@@ -1,7 +1,5 @@
 <template>
-  <div class="text">
-    404
-  </div>
+  <div class="text">404</div>
 </template>
 
 <style lang="scss" scoped>
@@ -21,10 +19,8 @@
   margin-top: 70px;
   text-align: center;
   width: 100%;
-}
 
-@media screen and (min-width: 1000px) {
-  .text {
+  @media screen and (min-width: 1000px) {
     font-size: 30rem;
   }
 }
