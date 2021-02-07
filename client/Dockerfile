@@ -1,4 +1,4 @@
-FROM node:latest as build
+FROM node:lts as build
 
 # Make the 'app' folder the current working directory
 WORKDIR /app
