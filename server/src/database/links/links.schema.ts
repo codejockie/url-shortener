@@ -16,7 +16,7 @@ const LinkSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  urlId: {
+  linkId: {
     type: String,
     unique: true,
     required: true,
