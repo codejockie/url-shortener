@@ -24,9 +24,9 @@ services:
       - MONGODB_URI=mongodb://mongo:27017
     volumes:
         - ./server:/src/
-        - nodemodules:/src/node_modules
+        - ./server/nodemodules:/server/node_modules
     links:
-        - mongodb
+        - mongo
   mongo:
     image: mongo
     container_name: shortly_mongo
