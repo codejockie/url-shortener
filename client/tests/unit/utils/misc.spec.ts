@@ -23,7 +23,7 @@ describe("hostName", () => {
     Object.defineProperty(document, "execCommand", { value: spy });
     Object.defineProperty(document, "addEventListener", { value: addSpy });
     Object.defineProperty(document, "removeEventListener", {
-      value: removeSpy
+      value: removeSpy,
     });
 
     copy("https://pbid.io");

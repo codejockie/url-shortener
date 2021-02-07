@@ -4,7 +4,7 @@ import Links from "@/components/Links.vue";
 import { factory, mountFactory } from "../../helper";
 
 jest.mock("@/utils/misc", () => ({
-  copy: jest.fn()
+  copy: jest.fn(),
 }));
 
 describe("Links.vue", () => {
@@ -17,10 +17,10 @@ describe("Links.vue", () => {
             shortened: "https://pbid.io/f3x2ab1c",
             urlId: "f3x2ab1c",
             createdAt: "2020-07-15T01:10:10.830Z",
-            popularity: 100
-          }
-        ]
-      }
+            popularity: 100,
+          },
+        ],
+      },
     });
 
     expect(wrapper.find(".link_host").text()).toMatch("example.com");
@@ -37,10 +37,10 @@ describe("Links.vue", () => {
             shortened: "https://pbid.io/f3x2ab1c",
             urlId: "f3x2ab1c",
             createdAt: "2020-07-15T01:10:10.830Z",
-            popularity: 100
-          }
-        ]
-      }
+            popularity: 100,
+          },
+        ],
+      },
     });
 
     wrapper.find("button.popularity").trigger("click");

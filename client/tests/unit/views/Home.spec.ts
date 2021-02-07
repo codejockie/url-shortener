@@ -4,7 +4,7 @@ import Home from "@/views/Home.vue";
 import { factory } from "../../helper";
 
 jest.mock("@/utils/misc", () => ({
-  copy: jest.fn()
+  copy: jest.fn(),
 }));
 
 jest.mock("axios", () => {
@@ -18,9 +18,9 @@ jest.mock("axios", () => {
               shortened: "https://pbid.io/f3x2ab1c",
               urlId: "f3x2ab1c",
               createdAt: "2020-07-15T01:10:10.830Z",
-              popularity: 100
-            }
-          ]
+              popularity: 100,
+            },
+          ],
         };
       }),
       post: jest.fn((path: string, data: Record<string, any>) => {
@@ -30,17 +30,17 @@ jest.mock("axios", () => {
             shortened: "https://pbid.io/f3z2ac6c",
             urlId: "f3z2ac6c",
             createdAt: "2020-07-13T01:10:10.830Z",
-            popularity: 100
+            popularity: 100,
           },
-          status: 201
+          status: 201,
         };
-      })
-    }))
+      }),
+    })),
   };
 });
 
 describe("Home.vue", () => {
-  test("renders a list links", done => {
+  test("renders a list links", (done) => {
     const wrapper = factory(Home);
 
     wrapper.vm.$nextTick(() => {
@@ -50,14 +50,14 @@ describe("Home.vue", () => {
           shortened: "https://pbid.io/f3x2ab1c",
           urlId: "f3x2ab1c",
           createdAt: "2020-07-15T01:10:10.830Z",
-          popularity: 100
-        }
+          popularity: 100,
+        },
       ]);
       done();
     });
   });
 
-  test("calls shorten method", done => {
+  test("calls shorten method", (done) => {
     const wrapper = factory(Home);
     wrapper.find("input[type=text]").setValue("https://bing.com");
 
@@ -69,15 +69,13 @@ describe("Home.vue", () => {
         expect((wrapper.vm as any).links.length).toBe(2);
         expect((wrapper.vm as any).links[0].urlId).toBe("f3z2ac6c");
         expect((wrapper.vm as any).links[0].original).toBe("https://bing.com");
-        expect((wrapper.vm as any).links[0].shortened).toBe(
-          "https://pbid.io/f3z2ac6c"
-        );
+        expect((wrapper.vm as any).links[0].shortened).toBe("https://pbid.io/f3z2ac6c");
         done();
       });
     });
   });
 
-  test("watches for url input field change", done => {
+  test("watches for url input field change", (done) => {
     const wrapper = factory(Home);
     wrapper.setData({ oldUrl: "https://pbid.io/f3z2ac6c" });
 
@@ -91,7 +89,7 @@ describe("Home.vue", () => {
     });
   });
 
-  test("copies link to clipboard", done => {
+  test("copies link to clipboard", (done) => {
     const wrapper = factory(Home);
     const mockedCopy = mocked(copy, true);
     wrapper.find("input[type=text]").setValue("https://bing.com");
