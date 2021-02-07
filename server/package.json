@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc && tscpaths -p tsconfig.json -s ./src -o ./dist",
     "dev": "nodemon -r tsconfig-paths/register src/index.ts",
-    "format": "prettier --write \"src/**/*.ts\"",
+    "format": "prettier --config ./.prettierrc --write \"src/**/*.ts\"",
     "precommit": "lint-staged",
     "start": "node dist/index.js",
     "test": "jest"
@@ -40,10 +40,10 @@
   },
   "lint-staged": {
     "{src}/**/*.{ts,js}": [
-      "prettier --config ../.prettierrc --write"
+      "prettier --config ./.prettierrc --write"
     ],
     "package.json": [
-      "prettier --config ../.prettierrc --write"
+      "prettier --config ./.prettierrc --write"
     ]
   },
   "husky": {
