@@ -1,15 +1,14 @@
 import { Request, Response } from "express"
 
-import * as shortid from "@/utils/shortid"
 import { LinkModel } from "@/database/links/links.model"
-import { ILinkDocument } from "@/database/links/links.types"
+import { reduceLink, shortId } from "@/utils"
 
 export const shortenLink = async (req: Request, res: Response): Promise<void> => {
   try {
     const { url: original } = req.body
-    const linkId = shortid.generate().toLowerCase()
-    const shortened = `https://pbid.io/${linkId}`
-    const newLink: ILinkDocument = new LinkModel({
+    const linkId = shortId().toLowerCase()
+    const shortened = reduceLink(linkId)
+    const newLink = new LinkModel({
       linkId,
       original,
       shortened,

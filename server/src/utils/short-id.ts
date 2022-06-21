@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid"
 
-export function generate() {
+export const shortId = () => {
   return nanoid(8)
 }
