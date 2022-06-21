@@ -1,5 +1,4 @@
 import * as express from "express"
-import * as bodyParser from "body-parser"
 import router from "@/router"
 import { BadRequest } from "@/errors/bad-request"
 
@@ -13,9 +12,9 @@ class App {
 
   private mountMiddleware(): void {
     this.app.use(express.static("public"))
-    this.app.use(bodyParser.json())
+    this.app.use(express.json())
     this.app.use(
-      bodyParser.urlencoded({
+      express.urlencoded({
         extended: true,
       })
     )
