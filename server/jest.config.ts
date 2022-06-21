@@ -1,4 +1,6 @@
-module.exports = {
+import type { Config } from "@jest/types"
+
+const config: Config.InitialOptions = {
   collectCoverage: true,
   coveragePathIgnorePatterns: [
     "node_modules",
@@ -11,6 +13,12 @@ module.exports = {
     ".mock.ts",
   ],
   coverageReporters: ["html", "json", "lcov", "text"],
+  extensionsToTreatAsEsm: [".ts"],
+  globals: {
+    "ts-jest": {
+      useESM: true,
+    },
+  },
   moduleFileExtensions: ["ts", "js"],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
@@ -21,3 +29,5 @@ module.exports = {
     "^.+\\.tsx?$": "ts-jest",
   },
 }
+
+export default config
