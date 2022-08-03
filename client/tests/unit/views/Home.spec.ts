@@ -23,24 +23,50 @@ jest.mock("axios", () => {
           ],
         };
       }),
-      post: jest.fn((path: string, data: Record<string, any>) => {
-        return {
-          data: {
-            original: data.url, // "https://bing.com",
-            shortened: "https://pbid.io/f3z2ac6c",
-            urlId: "f3z2ac6c",
-            createdAt: "2020-07-13T01:10:10.830Z",
-            popularity: 100,
-          },
-          status: 201,
-        };
-      }),
+      post: jest
+        .fn()
+        .mockImplementationOnce((_: string, data: Record<string, any>) => {
+          return {
+            data: {
+              original: data.url, // "https://bing.com",
+              shortened: "https://pbid.io/f3z2ac6c",
+              urlId: "f3z2ac6c",
+              createdAt: "2020-07-13T01:10:10.830Z",
+              popularity: 100,
+            },
+            status: 201,
+          };
+        })
+        .mockImplementationOnce((_: string, data: Record<string, any>) => {
+          return {
+            data: {
+              original: data.url, // "https://bing.com",
+              urlId: "f3z2ac6c",
+            },
+            status: 201,
+          };
+        })
+        .mockImplementationOnce(() => {
+          throw new Error();
+        })
+        .mockImplementationOnce((_: string, data: Record<string, any>) => {
+          return {
+            data: {
+              original: data.url, // "https://bing.com",
+              shortened: "https://pbid.io/f3z2ac6c",
+              urlId: "f3z2ac6c",
+              createdAt: "2020-07-13T01:10:10.830Z",
+              popularity: 100,
+            },
+            status: 201,
+          };
+        }),
     })),
   };
 });
 
 describe("Home.vue", () => {
-  test("renders a list links", (done) => {
+  test("renders a list of links", (done) => {
     const wrapper = factory(Home);
 
     wrapper.vm.$nextTick(() => {
@@ -57,19 +83,50 @@ describe("Home.vue", () => {
     });
   });
 
-  test("calls shorten method", (done) => {
-    const wrapper = factory(Home);
-    wrapper.find("input[type=text]").setValue("https://bing.com");
-
-    wrapper.vm.$nextTick(() => {
-      wrapper.find("button.btn-shorten").trigger("click");
-      expect((wrapper.vm as any).oldUrl).toBe("https://bing.com");
+  describe("Home.shorten(): calls shorten method", () => {
+    test("handles success with complete data", (done) => {
+      const wrapper = factory(Home);
+      wrapper.find("input[type=text]").setValue("https://bing.com");
 
       wrapper.vm.$nextTick(() => {
-        expect((wrapper.vm as any).links.length).toBe(2);
-        expect((wrapper.vm as any).links[0].urlId).toBe("f3z2ac6c");
-        expect((wrapper.vm as any).links[0].original).toBe("https://bing.com");
-        expect((wrapper.vm as any).links[0].shortened).toBe("https://pbid.io/f3z2ac6c");
+        wrapper.find("button.btn-shorten").trigger("click");
+        expect((wrapper.vm as any).oldUrl).toBe("https://bing.com");
+
+        wrapper.vm.$nextTick(() => {
+          expect((wrapper.vm as any).links.length).toBe(2);
+          expect((wrapper.vm as any).links[0].urlId).toBe("f3z2ac6c");
+          expect((wrapper.vm as any).links[0].original).toBe("https://bing.com");
+          expect((wrapper.vm as any).links[0].shortened).toBe("https://pbid.io/f3z2ac6c");
+          done();
+        });
+      });
+    });
+
+    test("handles success with incomplete data", (done) => {
+      const wrapper = factory(Home);
+      wrapper.find("input[type=text]").setValue("https://bing.com");
+
+      wrapper.vm.$nextTick(() => {
+        wrapper.find("button.btn-shorten").trigger("click");
+        expect((wrapper.vm as any).oldUrl).toBe("https://bing.com");
+
+        wrapper.vm.$nextTick(() => {
+          expect((wrapper.vm as any).links.length).toBe(2);
+          expect((wrapper.vm as any).links[0].urlId).toBe("f3z2ac6c");
+          expect((wrapper.vm as any).links[0].original).toBe("https://bing.com");
+          expect((wrapper.vm as any).links[0].shortened).toBe(undefined);
+          done();
+        });
+      });
+    });
+
+    test("handles error", (done) => {
+      const wrapper = factory(Home);
+      wrapper.find("input[type=text]").setValue("https://google.com");
+
+      wrapper.vm.$nextTick(() => {
+        wrapper.find("button.btn-shorten").trigger("click");
+        expect((wrapper.vm as any).oldUrl).toBe("https://google.com");
         done();
       });
     });

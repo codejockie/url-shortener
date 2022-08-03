@@ -43,6 +43,13 @@ export const links: ILink[] = [
     popularity: 150,
   },
   {
+    original: "https://bing.io",
+    shortened: "https://pbid.io/3ft2dc3k",
+    urlId: "3ft2da5c",
+    createdAt: "2020-07-13T01:10:10.830Z",
+    popularity: 1500,
+  },
+  {
     original: "https://pbid.io",
     shortened: "https://pbid.io/3ft2da5d",
     urlId: "3ft2da5d",

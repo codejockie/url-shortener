@@ -31,6 +31,13 @@ describe("sortByDate", () => {
         createdAt: "2020-07-14T01:10:10.830Z",
         popularity: 100,
       },
+      {
+        original: "https://bing.io",
+        shortened: "https://pbid.io/3ft2dc3k",
+        urlId: "3ft2da5c",
+        createdAt: "2020-07-13T01:10:10.830Z",
+        popularity: 1500,
+      },
     ];
     expect(sortByDate(links)).toEqual(sorted);
   });
